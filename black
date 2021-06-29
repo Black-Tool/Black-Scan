@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+import os
+import sys
+import requests
+import socket
+class color:
+    org = '\033[33m'
+    End = '\033[0m'
+black_scan_Version = "\nBlack-Scan 1.2.0\n";
+Port_Scan_help = """
+Usage:
+     -p host | portscan
+     -t host -k | pingtest
+     --version | Version
+     --help | help
+     """
+def cls():
+    os.system("clear")
+def main():
+    def title():
+        os.system("printf '\033]2;Port Scan\a'")
+    title()
+    if sys.argv[1] == '-p':
+        host = sys.argv[2]
+        port = [21,22,23,25,80,443,1025]
+        print("-------------\n")
+        ip = socket.gethostbyname(host)
+        print(f"IP: {ip}\n")
+        for i in port:
+           s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+           r = s.connect_ex((host,i))
+           port_name = socket.getservbyport(i)
+           if r == 0:
+             print(f"Port: {i} {port_name} : Open!\n")
+           else:
+               print(f"Port: {i} {port_name} : Filter!\n")
+    elif sys.argv[1] == '--help':
+        print(Port_Scan_help)
+        sys.exit()
+    elif sys.argv[1] == '--version':
+        print(black_scan_Version)
+        sys.exit()
+    elif sys.argv[1] == '-t':
+        host = sys.argv[2]
+        if sys.argv[3] == '-k':
+            packet = sys.argv[4]
+            print(color.org)
+            os.system(f"ping -w {packet} {host}")
+            print(color.End)
+        else:
+            sys.exit()
+    else:
+        print("\nPlease, Check Argument!\n")
+        sys.exit()
+if __name__ == '__main__':
+    try:
+        main()
+    except IndexError:
+        print("\nPlease, Usage: black --help\n")
+        sys.exit()
