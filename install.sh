@@ -12,6 +12,8 @@ sleep 2
 apt install python
 apt install python3
 chmod a+x black
+cp black /usr/bin
+cp black /usr/local/bin
 echo ""
 echo "Installing..., Finish...!"
 echo ""
